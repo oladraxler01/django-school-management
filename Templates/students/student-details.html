@@ -1,0 +1,166 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+{% block body %}
+
+<div class="page-wrapper">
+<div class="content container-fluid">
+<div class="page-header">
+<div class="row">
+<div class="col-sm-12">
+<h3 class="page-title">Student Details</h3>
+<ul class="breadcrumb">
+<li class="breadcrumb-item"><a href="{% url 'student_list' %}">Student</a></li>
+<li class="breadcrumb-item active">Student Details</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="card-body">
+<div class="row">
+<div class="col-md-12">
+<div class="about-info">
+<h4>About Me</h4>
+<div class="media mt-3">
+{% if student.student_image %}
+    <img src="{{ student.student_image.url }}" class="mr-3" alt="{{ student.first_name }} {{ student.last_name }}">
+{% else %}
+    <img src="{% static 'assets/img/default-student.jpg' %}" class="mr-3" alt="Default Student Image">
+{% endif %}
+<div class="media-body">
+<ul>
+<li>
+    <span class="title-span">Full Name : </span>
+    <span class="info-span">{{ student.first_name }} {{ student.last_name }}</span>
+</li>
+<li>
+    <span class="title-span">Class : </span>
+    <span class="info-span">{{ student.student_class }}</span>
+</li>
+<li>
+    <span class="title-span">Section : </span>
+    <span class="info-span">{{ student.section }}</span>
+</li>
+<li>
+    <span class="title-span">Admission Number : </span>
+    <span class="info-span">{{ student.admission_number }}</span>
+</li>
+<li>
+    <span class="title-span">Mobile : </span>
+    <span class="info-span">{{ student.mobile_number }}</span>
+</li>
+<li>
+    <span class="title-span">Gender : </span>
+    <span class="info-span">{{ student.gender }}</span>
+</li>
+<li>
+    <span class="title-span">Date of Birth : </span>
+    <span class="info-span">{{ student.date_of_birth }}</span>
+</li>
+<li>
+    <span class="title-span">Religion : </span>
+    <span class="info-span">{{ student.religion }}</span>
+</li>
+<li>
+    <span class="title-span">Joining Date : </span>
+    <span class="info-span">{{ student.joining_date }}</span>
+</li>
+</ul>
+</div>
+</div>
+
+<div class="row mt-3">
+<div class="col-md-12">
+<h4>Parent Information</h4>
+<ul>
+{% if student.parent %}
+    <li>
+        <span class="title-span">Father's Name : </span>
+        <span class="info-span">{{ student.parent.father_name }}</span>
+    </li>
+    <li>
+        <span class="title-span">Mother's Name : </span>
+        <span class="info-span">{{ student.parent.mother_name }}</span>
+    </li>
+    <li>
+        <span class="title-span">Father's Email : </span>
+        <span class="info-span">{{ student.parent.father_email }}</span>
+    </li>
+    <li>
+        <span class="title-span">Father's Phone : </span>
+        <span class="info-span">{{ student.parent.father_phone }}</span>
+    </li>
+    <li>
+        <span class="title-span">Address : </span>
+        <span class="info-span">{{ student.parent.address }}</span>
+    </li>
+{% else %}
+    <li>No parent information available</li>
+{% endif %}
+</ul>
+</div>
+</div>
+
+<div class="row mt-3">
+<div class="col-md-12">
+<div class="skill-info">
+<h4>Academic Information</h4>
+<div class="row mt-3">
+<div class="col-md-6">
+    <div class="card bg-light">
+        <div class="card-body">
+            <h5 class="card-title">Attendance</h5>
+            <p class="card-text">Overall Attendance: 92%</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="card bg-light">
+        <div class="card-body">
+            <h5 class="card-title">Performance</h5>
+            <p class="card-text">Overall Grade: A</p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row mt-3">
+<div class="col-md-12">
+<div class="skill-info">
+<h4>Actions</h4>
+<div class="btn-group mt-3" role="group">
+    <a href="{% url 'edit_student' student.id %}" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Student</a>
+    <a href="{% url 'student_list' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to List</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<footer>
+<p>Copyright © 2023 School Management System.</p>
+</footer>
+
+</div>
+</div>
+
+<script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'assets/js/script.js' %}"></script>
+{% endblock %}

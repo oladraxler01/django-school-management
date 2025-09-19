@@ -1,0 +1,248 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+{% block body %}
+
+
+<div class="page-wrapper">
+<div class="content container-fluid">
+
+<div class="page-header">
+<div class="row">
+<div class="col-sm-12">
+<h3 class="page-title">Welcome {{ request.user.first_name }}!</h3>
+<ul class="breadcrumb">
+<li class="breadcrumb-item"><a href="{% url 'index' %}">Dashboard</a></li>
+<li class="breadcrumb-item active">Teacher Dashboard</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-xl-3 col-sm-6 col-12 d-flex">
+<div class="card bg-five w-100">
+<div class="card-body">
+<div class="db-widgets d-flex justify-content-between align-items-center">
+<div class="db-icon">
+<i class="fas fa-chalkboard"></i>
+</div>
+<div class="db-info">
+<h3>{{ completed_classes }}/{{ total_classes }}</h3>
+<h6>Total Classes</h6>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-xl-3 col-sm-6 col-12 d-flex">
+<div class="card bg-six w-100">
+<div class="card-body">
+<div class="db-widgets d-flex justify-content-between align-items-center">
+<div class="db-icon">
+<i class="fas fa-user-graduate"></i>
+</div>
+<div class="db-info">
+<h3>{{ present_students }}/{{ total_students }}</h3>
+<h6>Total Students</h6>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-xl-3 col-sm-6 col-12 d-flex">
+<div class="card bg-seven w-100">
+<div class="card-body">
+<div class="db-widgets d-flex justify-content-between align-items-center">
+<div class="db-icon">
+<i class="fas fa-book-open"></i>
+</div>
+<div class="db-info">
+<h3>{{ completed_lessons }}/{{ total_lessons }}</h3>
+<h6>Total Lessons</h6>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-xl-3 col-sm-6 col-12 d-flex">
+<div class="card bg-eight w-100">
+<div class="card-body">
+<div class="db-widgets d-flex justify-content-between align-items-center">
+<div class="db-icon">
+<i class="fas fa-clock"></i>
+</div>
+<div class="db-info">
+<h3>{{ completed_hours }}/{{ total_hours }}</h3>
+<h6>Total Hours</h6>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="row">
+<div class="col-12 col-lg-12 col-xl-9">
+<div class="row">
+<div class="col-12 col-lg-8 col-xl-8 d-flex">
+<div class="card flex-fill">
+<div class="card-header">
+<div class="row align-items-center">
+<div class="col-6">
+<h5 class="card-title">Upcoming Lesson</h5>
+</div>
+<div class="col-6">
+<span class="float-right view-link"><a href="#">View All Courses</a></span>
+</div>
+</div>
+</div>
+<div class="pt-3 pb-3">
+<div class="table-responsive lesson">
+<table class="table table-center">
+<tbody>
+{% for lesson in upcoming_lessons %}
+<tr>
+<td>
+<div class="date">
+<b>{{ lesson.date|date:"M d, l" }}</b>
+<p>{{ lesson.start_time }} - {{ lesson.end_time }} ({{ lesson.duration }}min)</p>
+</div>
+</td>
+<td>
+<div class="date">
+<b>Lesson {{ lesson.number }}</b>
+<p>{{ lesson.topic }}</p>
+</div>
+</td>
+<td><a href="#">{{ lesson.status }}</a></td>
+<td><button type="submit" class="btn btn-info">Reschedule</button></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-4 col-xl-4 d-flex">
+<div class="card flex-fill">
+<div class="card-header">
+<div class="row align-items-center">
+<div class="col-12">
+<h5 class="card-title">Semester Progress</h5>
+</div>
+</div>
+</div>
+<div class="dash-widget">
+<div class="circle-bar circle-bar1">
+<div class="circle-graph1" data-percent="{{ progress_percentage }}">
+<b>{{ progress_percentage }}%</b>
+</div>
+</div>
+<div class="dash-info">
+<h6>Lesson Progressed</h6>
+<h4>{{ completed_lessons }} <span>/ {{ total_lessons }}</span></h4>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-12 col-lg-6 col-xl-8 d-flex">
+<div class="card flex-fill">
+<div class="card-header">
+<div class="row align-items-center">
+<div class="col-6">
+<h5 class="card-title">Teaching Activity</h5>
+</div>
+<div class="col-6">
+<ul class="list-inline-group text-right mb-0 pl-0">
+<li class="list-inline-item">
+<div class="form-group mb-0 amount-spent-select">
+<select class="form-control form-control-sm">
+<option>Weekly</option>
+<option>Monthly</option>
+<option>Yearly</option>
+</select>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="card-body">
+<div id="apexcharts-area"></div>
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-6 col-xl-4 d-flex">
+<div class="card flex-fill">
+<div class="card-header">
+ <h5 class="card-title">Teaching History</h5>
+</div>
+<div class="card-body">
+<div class="teaching-card">
+<ul class="activity-feed">
+{% for history in teaching_history %}
+<li class="feed-item">
+<div class="feed-date1">{{ history.date }}, {{ history.time }} ({{ history.duration }}min)</div>
+<span class="feed-text1"><a>{{ history.topic }}</a></span>
+<p><span>{{ history.status }}</span></p>
+</li>
+{% endfor %}
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-12 col-xl-3 d-flex">
+<div class="card flex-fill">
+<div class="card-header">
+<div class="row align-items-center">
+<div class="col-12">
+<h5 class="card-title">Calendar</h5>
+</div>
+</div>
+</div>
+<div class="card-body">
+<div id="calendar-doctor" class="calendar-container"></div>
+<div class="calendar-info calendar-info1">
+{% for event in calendar_events %}
+<div class="calendar-details">
+<p>{{ event.time }}</p>
+<h6 class="calendar-{{ event.color }} d-flex justify-content-between align-items-center">{{ event.title }} <span>{{ event.duration }}</span></h6>
+</div>
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+<footer>
+<p>Copyright © 2020 Dreamguys.</p>
+</footer>
+
+</div>
+
+</div>
+
+
+<script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'assets/js/popper.min.js' %}"></script>
+<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'assets/plugins/apexchart/apexcharts.min.js' %}"></script>
+<script src="{% static 'assets/plugins/apexchart/chart-data.js' %}"></script>
+<script src="{% static 'assets/plugins/simple-calendar/jquery.simple-calendar.js' %}"></script>
+<script src="{% static 'assets/js/calander.js' %}"></script>
+<script src="{% static 'assets/js/circle-progress.min.js' %}"></script>
+<script src="{% static 'assets/js/script.js' %}"></script>
+
+{% endblock %}

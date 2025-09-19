@@ -1,0 +1,209 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+{% block body %}
+
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 class="page-title">Teacher Details</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'teacher_list' %}">Teachers</a></li>
+            <li class="breadcrumb-item active">Teacher Details</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="about-info">
+              <h4>About Me</h4>
+              <div class="media mt-3">
+                {% if teacher.profile_picture %}
+                  <img src="{{ teacher.profile_picture.url }}" class="mr-3" alt="{{ teacher.full_name }}">
+                {% else %}
+                  <img src="{% static 'img/user.jpg' %}" class="mr-3" alt="{{ teacher.full_name }}">
+                {% endif %}
+                <div class="media-body">
+                  <ul>
+                    <li>
+                      <span class="title-span">Full Name : </span>
+                      <span class="info-span">{{ teacher.full_name }}</span>
+                    </li>
+                    <li>
+                      <span class="title-span">Department : </span>
+                      <span class="info-span">{{ teacher.department.name }}</span>
+                    </li>
+                    <li>
+                      <span class="title-span">Mobile : </span>
+                      <span class="info-span">{{ teacher.phone_number }}</span>
+                    </li>
+                    <li>
+                      <span class="title-span">Email : </span>
+                      <span class="info-span"><a href="mailto:{{ teacher.email }}">{{ teacher.email }}</a></span>
+                    </li>
+                    <li>
+                      <span class="title-span">Gender : </span>
+                      <span class="info-span">{{ teacher.get_gender_display }}</span>
+                    </li>
+                    <li>
+                      <span class="title-span">DOB : </span>
+                      <span class="info-span">{{ teacher.date_of_birth|date:"d M Y" }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <p>{{ teacher.bio|default:"Hello I am "|add:teacher.full_name|add:". Lorem Ipsum is simply dummy text of the printing and typesetting industry, simply dummy text of the printing and typesetting industry." }}</p>
+                </div>
+              </div>
+              
+              <div class="row follow-sec">
+                <div class="col-md-4 mb-3">
+                  <div class="blue-box">
+                    <h3>{{ teacher.followers_count|default:2850 }}</h3>
+                    <p>Followers</p>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <div class="blue-box">
+                    <h3>{{ teacher.following_count|default:2050 }}</h3>
+                    <p>Following</p>
+                  </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <div class="blue-box">
+                    <h3>{{ teacher.friends_count|default:2950 }}</h3>
+                    <p>Friends</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row mt-2">
+                <div class="col-md-12">
+                  <h5>Permanent Address</h5>
+                  <p>{{ teacher.permanent_address|default:"480, Estern Avenue, Courtage area, New York" }}</p>
+                </div>
+              </div>
+              
+              <div class="row mt-2">
+                <div class="col-md-12">
+                  <h5>Present Address</h5>
+                  <p>{{ teacher.present_address|default:"480, Estern Avenue, Courtage area, New York" }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <div class="skill-info">
+              <h4>Skills</h4>
+              <p>{{ teacher.skills_description|default:"Lorem Ipsum is simply dummy text of the printing and typesetting industry, simply dummy text of the printing and typesetting industry" }}</p>
+              
+              {% if teacher.skills.all %}
+                <ul>
+                  {% for skill in teacher.skills.all %}
+                  <li>
+                    <label>{{ skill.name }}</label>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                           role="progressbar" 
+                           aria-valuenow="{{ skill.proficiency }}" 
+                           aria-valuemin="0" 
+                           aria-valuemax="100" 
+                            style="width: 75%">                      </div>
+                    </div>
+                  </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p>No skills information available.</p>
+              {% endif %}
+              
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <h5>Education</h5>
+                  {% if teacher.education.all %}
+                    {% for edu in teacher.education.all %}
+                      <p class="mt-3">{{ edu.degree }} at {{ edu.institution }}, {{ edu.year_completed }}.</p>
+                    {% endfor %}
+                  {% else %}
+                    <p class="mt-3">Secondary Schooling at xyz school of secondary education, Mumbai.</p>
+                    <p>Higher Secondary Schooling at xyz school of higher secondary education, Mumbai.</p>
+                    <p>Bachelor of Science at Abc College of Art and Science, Chennai.</p>
+                    <p>Master of Science at Cdm College of Engineering and Technology, Pune.</p>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <h5>Certificates</h5>
+                  {% if teacher.certificates.all %}
+                    {% for cert in teacher.certificates.all %}
+                      <p class="mt-3">{{ cert.name }} - {{ cert.issuing_organization }}, {{ cert.issue_date|date:"Y" }}</p>
+                    {% endfor %}
+                  {% else %}
+                    <p class="mt-3">1st Prise in Running Competition.</p>
+                    <p>Lorem Ipsum is simply dummy text.</p>
+                    <p>Won overall star student in higher secondary education.</p>
+                    <p>Lorem Ipsum is simply dummy text.</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {% if user == teacher.user %}
+        <div class="row mt-2">
+          <div class="col-md-12">
+            <div class="skill-info">
+              <h4>Settings</h4>
+              <form method="POST" action="{% url 'teacher_update_profile' %}">
+                {% csrf_token %}
+                <div class="row mt-3">
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Username</label>
+                      <input type="text" class="form-control" value="{{ user.username }}" readonly>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Current Password</label>
+                      <input type="password" class="form-control" name="current_password">
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>New Password</label>
+                      <input type="password" class="form-control" name="new_password">
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Copyright © 2020 Dreamguys.</p>
+  </footer>
+</div>
+{% endblock %}
